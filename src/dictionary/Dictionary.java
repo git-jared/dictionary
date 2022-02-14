@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class Dictionary {
     
     public static void printWords(ArrayList<ArrayList<String>> dictionary){
-        
+        System.out.println(dictionary);
         
     }
     
@@ -34,9 +34,38 @@ public class Dictionary {
         return dictionary;
     }
     
-    public static ArrayList addWords(ArrayList<ArrayList<String>> dictionary){
+    public static ArrayList addWords(ArrayList<ArrayList<String>> dictionary, Scanner input){
     
-    return dictionary;
+        
+        ArrayList<String> words = new ArrayList();
+        ArrayList<String> definitions = new ArrayList();
+        String word;
+        String definition;
+        input.nextLine();
+        while(true){
+            System.out.println("Please enter your word followed by its "
+                    + "definition. To exit enter 'exit' when prompted "
+                    + "for the word.\n");
+            System.out.println("Enter your word:");
+            word = input.nextLine();
+            if (word.matches("exit"))
+                break;
+            words.add(word);
+            
+            System.out.println("Enter its definition.");
+            definition = input.nextLine();
+            definitions.add(definition);
+           
+        } 
+        
+       
+        
+        //Add lists to dictionary list.
+        dictionary.add(words);
+        dictionary.add(definitions);
+        
+        
+        return dictionary;
     }
 
     /**
@@ -49,10 +78,17 @@ public class Dictionary {
         //performs the associated actions. Include an option for the 
         //user to exit the program.
         
-        //main loop where our app will run.
+        
+        
+        
+        int choice;
+        ArrayList<ArrayList<String>> dictionary = new ArrayList<>();
         Scanner in = new Scanner(System.in);
-        int choice = 1;
-        while(choice != 0){
+        //Main loop where our app runs.
+        do
+        {
+            
+            
             System.out.println("1. Add words and defintions to dicitonary.");
             System.out.println("2. Remove words and defintions to dicitonary.");
             System.out.println("3. Edit words and/or defintions in dicitonary.");
@@ -61,19 +97,19 @@ public class Dictionary {
             System.out.println("0. Exit the program.\n");
             
             choice = in.nextInt();
-            ArrayList<ArrayList<String>> dictionary = new ArrayList<>();
+           
             switch(choice){
                 case 1:
-                    addWords(dictionary);
+                    dictionary = addWords(dictionary, in);
                     break;      
                 case 2:
-                    removeWords(dictionary);
+                    dictionary = removeWords(dictionary);
                     break;
                 case 3:
-                    editWords(dictionary);
+                    dictionary = editWords(dictionary);
                     break;
                 case 4:
-                    searchWords(dictionary);
+                    dictionary = searchWords(dictionary);
                     break;
                 case 5:
                     printWords(dictionary);
@@ -81,8 +117,8 @@ public class Dictionary {
             }
             
             
-                
-        }
+        } while(choice != 0);
+        in.close();
     }
     
 }
