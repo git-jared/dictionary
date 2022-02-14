@@ -16,7 +16,11 @@ import java.util.ArrayList;
 public class Dictionary {
     
     public static void printWords(ArrayList<ArrayList<String>> dictionary){
-        System.out.println(dictionary);
+//        System.out.println(dictionary);
+        for (int i = 0; i < dictionary.size()-1;i+=2)
+            System.out.println(dictionary.get(i)+"-"+dictionary.get(i+1)+"\n");
+        
+        
         
     }
     
@@ -41,6 +45,7 @@ public class Dictionary {
         ArrayList<String> definitions = new ArrayList();
         String word;
         String definition;
+        //Stops the scanner from skipping the first word.
         input.nextLine();
         while(true){
             System.out.println("Please enter your word followed by its "
@@ -56,10 +61,10 @@ public class Dictionary {
             definition = input.nextLine();
             definitions.add(definition);
            
-        } 
+        }
+        
         
        
-        
         //Add lists to dictionary list.
         dictionary.add(words);
         dictionary.add(definitions);
