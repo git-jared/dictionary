@@ -9,6 +9,7 @@ package dictionary;
 import java.util.Scanner;
 import java.util.ArrayList;
 
+
 /**
  *
  * @author git-jared
@@ -16,9 +17,10 @@ import java.util.ArrayList;
 public class Dictionary {
     
     public static void printWords(ArrayList<ArrayList<String>> dictionary){
-//        System.out.println(dictionary);
-        for (int i = 0; i < dictionary.size()-1;i+=2)
-            System.out.println(dictionary.get(i)+"-"+dictionary.get(i+1)+"\n");
+        ///Print our words and definitions.
+        for (int i = 0; i < dictionary.size(); i++)
+            for (int j = 0; j < dictionary.get(i).size()-1;j+=2)
+             System.out.println(dictionary.get(i).get(j)+" - "+dictionary.get(i).get(j+1)+"\n");
         
         
         
@@ -33,42 +35,76 @@ public class Dictionary {
         return dictionary;
     }
     
-    public static ArrayList removeWords(ArrayList<ArrayList<String>> dictionary){
-    
+    public static ArrayList removeWords(ArrayList<ArrayList<String>> dictionary, Scanner input){
+        //Remove words and definitions from the dictionary.
+        String remove;
+        //Default starting page is zero... its the first page.
+        int page = 0;
+        int index = 0;
+     
+        
+        //Clear the buffer.
+        input.nextLine();
+        
+        while(true){
+            System.out.println("\nEnter the word you want removed from the dictionary."
+                + "\nTo exit enter 'exit'.");
+             System.out.println("To skip to the next page hit > "
+                    + "\nto go to the previous page hit <.");
+             
+            if (page < dictionary.size() && page > - 1)
+                System.out.println(dictionary.get(page));
+            else
+                System.out.println("Your page is out of bounds.");
+            
+            remove = input.nextLine();
+            if (remove.equals("exit"))
+                    break;
+            else if (remove.matches(">"))
+                page++;
+            else if (remove.matches("<"))
+                page--;
+            else{
+                //Get the index of the definition to be removed.
+                index = dictionary.get(page).indexOf(remove);
+                //Remove the word and definition.
+                dictionary.get(page).remove(new String(remove));
+                dictionary.get(page).remove(index);
+            }
+        }
+        
         return dictionary;
     }
     
     public static ArrayList addWords(ArrayList<ArrayList<String>> dictionary, Scanner input){
-    
+        //Add words and definitions to the dictionary arrayList.
         
         ArrayList<String> words = new ArrayList();
-        ArrayList<String> definitions = new ArrayList();
         String word;
         String definition;
+        
         //Stops the scanner from skipping the first word.
         input.nextLine();
         while(true){
             System.out.println("Please enter your word followed by its "
                     + "definition. To exit enter 'exit' when prompted "
                     + "for the word.\n");
+           
             System.out.println("Enter your word:");
             word = input.nextLine();
             if (word.matches("exit"))
                 break;
+            
             words.add(word);
             
             System.out.println("Enter its definition.");
             definition = input.nextLine();
-            definitions.add(definition);
+            words.add(definition);
            
         }
         
-        
-       
-        //Add lists to dictionary list.
+        //Add list to dictionary list.
         dictionary.add(words);
-        dictionary.add(definitions);
-        
         
         return dictionary;
     }
@@ -87,13 +123,13 @@ public class Dictionary {
         
         
         int choice;
+        //Represents which page of the dictionary you are on.
+        
         ArrayList<ArrayList<String>> dictionary = new ArrayList<>();
         Scanner in = new Scanner(System.in);
         //Main loop where our app runs.
         do
         {
-            
-            
             System.out.println("1. Add words and defintions to dicitonary.");
             System.out.println("2. Remove words and defintions to dicitonary.");
             System.out.println("3. Edit words and/or defintions in dicitonary.");
@@ -108,7 +144,7 @@ public class Dictionary {
                     dictionary = addWords(dictionary, in);
                     break;      
                 case 2:
-                    dictionary = removeWords(dictionary);
+                    dictionary = removeWords(dictionary, in);
                     break;
                 case 3:
                     dictionary = editWords(dictionary);
@@ -120,7 +156,6 @@ public class Dictionary {
                     printWords(dictionary);
                     break;
             }
-            
             
         } while(choice != 0);
         in.close();
