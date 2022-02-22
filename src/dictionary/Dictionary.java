@@ -22,16 +22,81 @@ public class Dictionary {
             for (int j = 0; j < dictionary.get(i).size()-1;j+=2)
              System.out.println(dictionary.get(i).get(j)+" - "+dictionary.get(i).get(j+1)+"\n");
         
-        
-        
     }
     
-    public static ArrayList searchWords(ArrayList<ArrayList<String>> dictionary){
+    public static ArrayList searchWords(ArrayList<ArrayList<String>> dictionary, Scanner input){
         return dictionary;
     }
     
-    public static ArrayList editWords(ArrayList<ArrayList<String>> dictionary){
-    
+    public static ArrayList editWords(ArrayList<ArrayList<String>> dictionary, Scanner input){
+        //String that holds the edits of the defintion or word in the dictionary.
+        String edit;
+        //word edit
+        String wedit;
+        //definition edit
+        String dedit;
+        //Default starting page is zero...its the first page.
+        int page = 0;
+        int index = 0;
+        int choice = 0;
+        
+        //Clear the buffer.
+        input.nextLine();
+        
+        while(true){
+            System.out.println("\nEnter the word you want to edit in the dictionary."
+                + "\nTo exit enter 'exit'.");
+             System.out.println("To skip to the next page hit > "
+                    + "\nto go to the previous page hit <.");
+             
+            if (page < dictionary.size() && page > - 1)
+                System.out.println(dictionary.get(page));
+            else
+                System.out.println("Your page is out of bounds.");
+            
+            edit = input.nextLine();
+            if (edit.equals("exit"))
+                    break;
+            else if (edit.matches(">"))
+                page++;
+            else if (edit.matches("<"))
+                page--;
+            else{
+                //Check if the user wants to edit the word or the dictionary.
+                System.out.println("To edit the word enter 1 to edit the "
+                        + "definition enter 2 to edit both press any "
+                        + "other number.");
+                choice = input.nextInt();
+                //clear buffer.
+                input.nextLine();
+                switch (choice) {
+                    case 1:
+                        index = dictionary.get(page).indexOf(edit);
+                        System.out.println("Make your edit for the word "+edit+".");
+                        wedit = input.nextLine();
+                        dictionary.get(page).set(index, wedit);
+                        break;
+                    case 2:
+                        index = dictionary.get(page).indexOf(edit)+1;
+                        System.out.println("Make your edit for the difinition "
+                                + ""+dictionary.get(page).get(index)+".");
+                        dedit = input.nextLine();
+                        dictionary.get(page).set(index, dedit);
+                        break;
+                    default:
+                        index = dictionary.get(page).indexOf(edit);
+                        System.out.println("Make your edit for the word.");
+                        wedit = input.nextLine();
+                        dictionary.get(page).set(index, wedit);
+                        System.out.println("Make your edit for the definition.");
+                        dedit = input.nextLine();
+                        dictionary.get(page).set(index+1, dedit);
+                        break;
+                }
+            }
+        }
+        
+        
         return dictionary;
     }
     
@@ -147,10 +212,10 @@ public class Dictionary {
                     dictionary = removeWords(dictionary, in);
                     break;
                 case 3:
-                    dictionary = editWords(dictionary);
+                    dictionary = editWords(dictionary, in);
                     break;
                 case 4:
-                    dictionary = searchWords(dictionary);
+                    dictionary = searchWords(dictionary, in);
                     break;
                 case 5:
                     printWords(dictionary);
