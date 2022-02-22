@@ -1,7 +1,7 @@
 /*
  CSE 1310 Introduction to Computers and Programming 
 Exam 2 Q4 Started 2/12/22
-Finished 
+Finished 2/22/22  
  */
 
 package dictionary;
@@ -24,11 +24,39 @@ public class Dictionary {
         
     }
     
-    public static ArrayList searchWords(ArrayList<ArrayList<String>> dictionary, Scanner input){
-        return dictionary;
+    public static void searchWords(ArrayList<ArrayList<String>> dictionary, Scanner input){
+        /* Search for words in the dictionary and print the word and definition.*/
+        
+        String word;
+        int index = -1;
+        
+        //Clear the scanner buffer.
+        input.nextLine();
+        
+        while (true){
+            System.out.println("Enter the word you're looking for. "
+                    + "To exit enter 'exit'.");
+            word = input.nextLine();
+            if (word.equals("exit"))
+                break;
+            for (int i = 0; i < dictionary.size(); i++){
+                index = dictionary.get(i).indexOf(word);
+                if (index!= -1){
+                    System.out.println(dictionary.get(i).get(index)+" - "+
+                            dictionary.get(i).get(index+1)+"\n");
+                    break;  
+                }
+            }
+           if (index == -1){
+               System.out.println("Your word was not found.\n");
+           }
+        }
+        
     }
     
     public static ArrayList editWords(ArrayList<ArrayList<String>> dictionary, Scanner input){
+        /* Edit words and/or definitions in the dictionary. */
+        
         //String that holds the edits of the defintion or word in the dictionary.
         String edit;
         //word edit
@@ -96,7 +124,6 @@ public class Dictionary {
             }
         }
         
-        
         return dictionary;
     }
     
@@ -107,7 +134,6 @@ public class Dictionary {
         int page = 0;
         int index = 0;
      
-        
         //Clear the buffer.
         input.nextLine();
         
@@ -184,9 +210,6 @@ public class Dictionary {
         //performs the associated actions. Include an option for the 
         //user to exit the program.
         
-        
-        
-        
         int choice;
         //Represents which page of the dictionary you are on.
         
@@ -215,7 +238,7 @@ public class Dictionary {
                     dictionary = editWords(dictionary, in);
                     break;
                 case 4:
-                    dictionary = searchWords(dictionary, in);
+                    searchWords(dictionary, in);
                     break;
                 case 5:
                     printWords(dictionary);
